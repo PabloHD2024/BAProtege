@@ -45,7 +45,7 @@ const CustomInput = ({ icon, placeholder, secureTextEntry = false }: any) => (
 );
 
 const IconCircle = ({ icon, color = "#0060CC", size = 60, bg = "#005fccbd" }: any) => (
-  <View style={[styles.iconCircle, { backgroundColor: bg, width: size, height: size, borderRadius: size / 2 }]}>
+  <View style={[styles.iconCircle, { backgroundColor: bg, width: size, height: size, borderRadius: size / 1, alignSelf: 'center' }]}>
     {icon}
   </View>
 );
@@ -59,8 +59,11 @@ const WelcomeScreen = ({ navigation }: any) => (
   <View style={styles.container}>
     <Header />
      <ScreenTitle text="PROTECCIÓN DIGITAL PARA TU FAMILIA" />
+     {/* <Shield size={180} color="#00B4D8" style={{ marginVertical: 30, alignSelf: 'center' }} /> */}
+    <Image source={require('./img/contorno-escudo-marca-verificacion-plano.png')}
+    style={{ width: 250, height: 250, resizeMode: 'contain', alignSelf: 'center' }} />
     <View style={styles.contentCenter}>
-      <Shield size={150} color="#00B4D8" style={{ marginVertical: 30 }} /> 
+       
       <Text style={styles.description}>
         "Bloquea inteligente de sitios y aplicaciones de apuestas para cuidar el entorno de tus hijos."
       </Text>
@@ -75,9 +78,8 @@ const RegisterScreen = ({ navigation }: any) => (
   <View style={styles.container}>
     <Header />
     <ScreenTitle text="Crear Cuenta" />
+    <IconCircle icon={<User size={50} color="#fff" />} size={80} />
     <ScrollView contentContainerStyle={styles.content}>
-      <IconCircle icon={<User size={40} color="#fff" />} />
-      
       <CustomInput placeholder="Nombre" />
       <CustomInput placeholder="Apellido" />
       <CustomInput placeholder="Correo electrónico" />
@@ -99,8 +101,8 @@ const ConfirmAccountScreen = ({ navigation }: any) => (
   <View style={styles.container}>
     <Header />
     <ScreenTitle text="Confirmación de cuenta" />
+    <IconCircle icon={<Mail size={50} color="#fff" />} size={80} />
     <View style={styles.contentCenter}>
-      <IconCircle icon={<Mail size={40} color="#fff" />} size={80} />
       <Text style={styles.subtitle}>¡Revisa tu correo!</Text>
       <Text style={styles.description}>
         Te enviamos un mail para confirmar tu cuenta. Recordá revisar el spam o correo no deseado.
@@ -116,9 +118,8 @@ const LoginScreen = ({ navigation }: any) => (
   <View style={styles.container}>
     <Header />
     <ScreenTitle text="Ingresa a tu cuenta" />
+    <IconCircle icon={<ArrowRight size={50} color="#fff" />} size={80} />
     <View style={styles.contentCenter}>
-      <IconCircle icon={<ArrowRight size={40} color="#fff" />} size={80} />
-      
       <CustomInput placeholder="Correo electrónico" />
       <CustomInput placeholder="Contraseña" secureTextEntry icon={<Lock size={20} color="#999" />} />
       
@@ -136,8 +137,8 @@ const RecoverScreen = ({ navigation }: any) => (
   <View style={styles.container}>
     <Header />
     <ScreenTitle text="Recuperar tu cuenta" />
+    <IconCircle icon={<Lock size={50} color="#fff" />} size={80} />
     <View style={styles.contentCenter}>
-      <IconCircle icon={<Lock size={40} color="#fff" />} size={80} />
       <Text style={styles.description}>Ingrese su correo, le enviaremos un link de recuperación</Text>
       <CustomInput placeholder="Correo electrónico" />
       <PrimaryButton title="Enviar" onPress={() => navigation.goBack()} />
@@ -150,10 +151,9 @@ const ActivateScreen = ({ navigation }: any) => (
   <View style={styles.container}>
     <Header />
     <ScreenTitle text="Activa BA Protege +" />
+    <IconCircle icon={<ShieldCheck size={50} color="#fff" />} size={80} />
     <ScrollView contentContainerStyle={styles.content}>
-      <IconCircle icon={<ShieldCheck size={40} color="#fff" />} size={80} />
       <Text style={styles.description}>Configuración de Permisos{'\n'}Para que la solución funcione correctamente, necesitamos algunos permisos.</Text>
-      
       <View style={styles.infoCard}>
         <View style={styles.infoRow}><Text style={styles.infoTitle}>Paso 1: Administrar</Text><CheckCircle2 color="#00B4D8" size={20} /></View>
         <Text style={styles.infoText}>Permisos activados correctamente</Text>
@@ -177,10 +177,9 @@ const UsageModeScreen = ({ navigation }: any) => (
   <View style={styles.container}>
     <Header />
     <ScreenTitle text="Modo de uso" />
+    <IconCircle icon={<CheckCircle2 size={50} color="#fff" />} size={80} />
     <View style={styles.contentCenter}>
-      <IconCircle icon={<CheckCircle2 size={40} color="#fff" />} size={80} />
       <Text style={styles.subtitle}>Elegí cómo querés que funcione la protección en la familia.</Text>
-
       <TouchableOpacity style={styles.modeCard} onPress={() => navigation.navigate('AddDevice')}>
         <View style={styles.modeIcon}><Users size={20} color="#fff" /></View>
         <View style={{ flex: 1 }}>
@@ -207,10 +206,9 @@ const AddDeviceScreen = ({ navigation }: any) => (
   <View style={styles.container}>
     <Header />
     <ScreenTitle text="Agregar dispositivos protegidos" />
+    <IconCircle icon={<Smartphone size={50} color="#fff" />} size={80} />
     <View style={styles.contentCenter}>
-      <IconCircle icon={<Smartphone size={40} color="#fff" />} size={80} />
       <Text style={styles.description}>Seleccioná el dispositivo que querés proteger y vincular a uno nuevo.</Text>
-      
       <TouchableOpacity style={styles.deviceBtn}><Text style={styles.deviceBtnText}>Celular</Text></TouchableOpacity>
       <TouchableOpacity style={styles.deviceBtn}><Text style={styles.deviceBtnText}>Tablet</Text></TouchableOpacity>
       <TouchableOpacity style={styles.deviceBtn}><Text style={styles.deviceBtnText}>Notebook</Text></TouchableOpacity>
@@ -225,8 +223,8 @@ const ConfigureAccessScreen = ({ navigation }: any) => (
   <View style={styles.container}>
     <Header />
     <ScreenTitle text="Configurá tu acceso" />
+    <IconCircle icon={<Lock size={50} color="#fff" />} size={80} />
     <View style={styles.contentCenter}>
-      <IconCircle icon={<Lock size={40} color="#fff" />} size={80} />
       <CustomInput placeholder="4F82-9K" />
       <PrimaryButton title="Continuar" onPress={() => navigation.navigate('LinkDevice')} />
     </View>
@@ -238,8 +236,8 @@ const LinkDeviceScreen = ({ navigation }: any) => (
   <View style={styles.container}>
     <Header />
     <ScreenTitle text="Vincular dispositivos" />
+    <IconCircle icon={<RefreshCw size={50} color="#fff" />} size={80} />
     <View style={styles.contentCenter}>
-      <IconCircle icon={<RefreshCw size={40} color="#fff" />} size={80} />
       <Text style={styles.description}>Ingresá el código que te compartió tu responsable.</Text>
       <CustomInput placeholder="4F82-9K" />
       <PrimaryButton title="Continuar" onPress={() => navigation.navigate('Linked')} />
@@ -252,8 +250,8 @@ const LinkedScreen = ({ navigation }: any) => (
   <View style={styles.container}>
     <Header />
     <ScreenTitle text="Dispositivo vinculado" />
+    <IconCircle icon={<CheckCircle2 size={90} color="#00C851" />} bg="#E8F5E9" size={100} />
     <View style={styles.contentCenter}>
-      <IconCircle icon={<CheckCircle2 size={40} color="#00C851" />} bg="#E8F5E9" size={100} />
       <Text style={styles.description}>Ahora este equipo está protegido y gestionado por tu responsable.</Text>
       <PrimaryButton title="Continuar" onPress={() => navigation.navigate('ConfigProtection')} />
     </View>
@@ -265,25 +263,22 @@ const ConfigProtectionScreen = ({ navigation }: any) => (
   <View style={styles.container}>
     <Header />
     <ScreenTitle text="Configurar protección" />
+    <IconCircle icon={<Shield size={50} color="#fff" />} size={80} />
     <View style={styles.contentCenter}>
-      <IconCircle icon={<Shield size={40} color="#fff" />} size={80} />
       <Text style={styles.description}>Elegí qué querés bloquear en este dispositivo.</Text>
-      
       <View style={styles.checkRow}>
-        <View style={[styles.checkBoxActive, { backgroundColor: '#00B4D8', borderRadius: 8, padding: 4 }]}><Shield size={20} color="#fff" /></View>
+        <View style={[styles.checkBoxActive, { backgroundColor: '#00B4D8', borderRadius: 10, padding: 10, marginRight: 15 }]}><Shield size={25} color="#fff" /></View>
         <View>
           <Text style={styles.checkTitle}>Sitios de Apuestas</Text>
           <Text style={styles.checkDesc}>Bloqueo de sitios, juegos y apps de apuestas.</Text>
         </View>
       </View>
-
       <View style={styles.checkRow}>
-        <View style={[styles.checkBoxInactive, { backgroundColor: '#E0F7FA', borderRadius: 8, padding: 4 }]}><Shield size={20} color="#00B4D8" /></View>
+        <View style={[styles.checkBoxInactive, { backgroundColor: '#E0F7FA', borderRadius: 10, padding: 10, marginRight: 15 }]}><Shield size={25} color="#00B4D8" /></View>
         <View>
           <Text style={styles.checkTitle}>Sitios de información (Opcional)</Text>
         </View>
       </View>
-
       <PrimaryButton title="Siguiente" onPress={() => navigation.navigate('Summary')} />
     </View>
   </View>
@@ -294,8 +289,8 @@ const SummaryScreen = ({ navigation }: any) => (
   <View style={styles.container}>
     <Header />
     <ScreenTitle text="Resúmen de configuracion de protección" />
+    <IconCircle icon={<Settings size={50} color="#fff" />} size={80} />
     <View style={styles.contentCenter}>
-      <IconCircle icon={<Settings size={40} color="#fff" />} size={80} />
       
       <View style={{ width: '100%', marginVertical: 20 }}>
         <Text style={styles.listItem}>• Sitios de apuestas bloqueados</Text>
@@ -317,10 +312,9 @@ const SummaryScreen = ({ navigation }: any) => (
 const ActivatingScreen = ({ navigation }: any) => (
   <View style={styles.container}>
     <Header />
+    <ScreenTitle text='Activando Protección' />
+    <IconCircle icon={<RefreshCw size={50} color="#fff" />} size={80} />
     <View style={styles.contentCenter}>
-      <Text style={styles.title}>Activando Protección</Text>
-      <IconCircle icon={<RefreshCw size={40} color="#fff" />} size={80} />
-      
       <View style={{ flexDirection: 'row', gap: 20, marginVertical: 20 }}>
         <CheckCircle2 size={40} color="#00C851" />
         <AlertTriangle size={40} color="#FFBB33" />
@@ -343,9 +337,9 @@ const ActivatingScreen = ({ navigation }: any) => (
 const ResponsibleModeScreen = ({ navigation }: any) => (
   <View style={styles.container}>
     <Header />
+    <ScreenTitle text='Modo responsable' />
+    <IconCircle icon={<Users size={50} color="#fff" />} size={80} />
     <View style={styles.contentCenter}>
-      <Text style={styles.title}>Modo Responsable</Text>
-      <IconCircle icon={<Users size={40} color="#fff" />} size={80} />
       <Text style={styles.description}>Desde este Panel podés gestionar tus dispositivos protegidos y la configuración de la app.</Text>
       
       <TouchableOpacity style={styles.menuCard}>
@@ -376,11 +370,10 @@ const ResponsibleModeScreen = ({ navigation }: any) => (
 const InterruptedScreen = ({ navigation }: any) => (
   <View style={styles.container}>
     <Header />
+    <ScreenTitle text='Protección interrumpida' />
     <View style={styles.contentCenter}>
-      <Text style={styles.title}>Protección interrumpida</Text>
-      <IconCircle icon={<Shield size={40} color="#fff" />} size={80} />
+      <IconCircle icon={<Shield size={50} color="#fff" />} size={80} />
       <Text style={styles.description}>El bloqueo de sitios de apuestas no está activo porque la VPN local se desconectó.</Text>
-      
       <View style={styles.warningCard}>
         <AlertTriangle size={20} color="#999" />
         <View style={{ marginLeft: 10 }}>
@@ -445,10 +438,10 @@ const ScreenTitle = ({ text }: { text: string }) => (
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#fff' },
   header: { backgroundColor: '#0060CC', paddingTop: 50, paddingBottom: 20, alignItems: 'center' },
-  headerText: { color: '#fff', fontSize: 24, fontWeight: 'bold' },
+  headerText: { color: '#fff', fontSize: 40, fontWeight: 'bold' },
   content: { padding: 20, alignItems: 'center', paddingBottom: 40 },
   contentCenter: { padding: 20, alignItems: 'center', justifyContent: 'center', flex: 1 },
-  title: { fontSize: 20, fontWeight: 'bold', color: '#4B4B4B', textAlign: 'center', marginBottom: 15 },
+  title: { fontSize: 20, fontWeight: 'bold', color: '#4B4B4B', textAlign: 'center', marginBottom: 15, fontFamily: 'Archivo Narrow'  },
   subtitle: { fontSize: 20, fontWeight: '800', color: '#4B4B4B', textAlign: 'center', marginVertical: 10 },
   description: { fontSize: 14, color: '#666', textAlign: 'center', marginBottom: 20, lineHeight: 20 },
   btn: { width: '100%', padding: 15, borderRadius: 10, alignItems: 'center', marginTop: 10 },
@@ -460,7 +453,7 @@ const styles = StyleSheet.create({
   inputContainer: { width: '100%', backgroundColor: '#F5F5F5', borderRadius: 8, flexDirection: 'row', alignItems: 'center', marginBottom: 15, paddingHorizontal: 15, borderWidth: 1, borderColor: '#E0E0E0' },
   input: { flex: 1, paddingVertical: 15, color: '#4B4B4B' },
   inputIcon: { padding: 5 },
-  iconCircle: { alignItems: 'center', justifyContent: 'center', marginVertical: 15 },
+  iconCircle: { alignItems: 'center', justifyContent: 'center', marginVertical: 15, padding: 35},
   checkboxContainer: { flexDirection: 'row', alignItems: 'center', width: '100%', marginBottom: 20, marginTop: 10 },
   checkbox: { width: 20, height: 20, borderWidth: 1, borderColor: '#999', borderRadius: 4, marginRight: 10 },
   checkboxText: { color: '#666', fontSize: 14 },
@@ -486,5 +479,5 @@ const styles = StyleSheet.create({
   menuCard: { width: '100%', backgroundColor: '#8CB4E3', flexDirection: 'row', padding: 15, borderRadius: 10, marginBottom: 10, alignItems: 'center' },
   menuText: { flex: 1, color: '#fff', fontWeight: 'bold', marginLeft: 15 },
   warningCard: { width: '100%', flexDirection: 'row', backgroundColor: '#F5F5F5', padding: 15, borderRadius: 10, borderWidth: 1, borderColor: '#E0E0E0', alignItems: 'center', marginBottom: 20 },
-  screenTitle: {fontSize: 20, fontWeight: 'bold', color: '#333', textAlign: 'center', marginTop: 30,}, // <-- Ajustá este valor si querés más o menos espacio desde el Header azulmarginBottom: 20,paddingHorizontal: 20,},
+  screenTitle: {fontSize: 30, fontWeight: 'bold', color: '#333', textAlign: 'center', marginTop: 30,}, // <-- Ajustá este valor si querés más o menos espacio desde el Header azulmarginBottom: 20,paddingHorizontal: 20,},
 });
