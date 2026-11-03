@@ -1,16 +1,17 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import {
-  View, Text, StyleSheet, TouchableOpacity, TextInput, ScrollView, Image
+  View, Text, StyleSheet, TouchableOpacity, TextInput, ScrollView, Image, Switch
 } from 'react-native';
 import {
   Shield, User, Mail, Lock, Smartphone, CheckCircle2, AlertTriangle, 
   XCircle, ShieldCheck, Laptop, RefreshCw, ArrowRight, Settings, 
-  Bell, Users, Activity
+  Bell, Users, Activity, Eye, EyeOff
 } from 'lucide-react-native';
+
 
 // ==========================================
 // COMPONENTES REUTILIZABLES
@@ -32,17 +33,44 @@ const PrimaryButton = ({ title, onPress, outline = false, disabled = false }: an
   </TouchableOpacity>
 );
 
-const CustomInput = ({ icon, placeholder, secureTextEntry = false }: any) => (
-  <View style={styles.inputContainer}>
-    <TextInput 
-      style={styles.input} 
-      placeholder={placeholder} 
-      placeholderTextColor="#999"
-      secureTextEntry={secureTextEntry}
-    />
-    {icon && <View style={styles.inputIcon}>{icon}</View>}
-  </View>
-);
+// const CustomInput = ({ icon, placeholder, secureTextEntry = false }: any) => (
+//   <View style={styles.inputContainer}>
+//     <TextInput 
+//       style={styles.input} 
+//       placeholder={placeholder} 
+//       placeholderTextColor="#999"
+//       secureTextEntry={secureTextEntry}
+//     />
+//     {icon && <View style={styles.inputIcon}>{icon}</View>}
+//   </View>
+// );
+
+const CustomInput = ({ icon, placeholder, secureTextEntry = false }: any) => {
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+
+  return (
+    <View style={styles.inputContainer}>
+      <TextInput 
+        style={styles.input} 
+        placeholder={placeholder} 
+        placeholderTextColor="#999"
+        secureTextEntry={secureTextEntry ? !isPasswordVisible : false}
+      />
+      
+      {secureTextEntry ? (
+        <TouchableOpacity onPress={() => setIsPasswordVisible(!isPasswordVisible)} style={styles.inputIcon}>
+          {isPasswordVisible ? (
+            <EyeOff size={20} color="#999" />
+          ) : (
+            <Eye size={20} color="#999" />
+          )}
+        </TouchableOpacity>
+      ) : icon ? (
+        <View style={styles.inputIcon}>{icon}</View>
+      ) : null}
+    </View>
+  );
+};
 
 const IconCircle = ({ icon, color = "#0060CC", size = 60, bg = "#005fccbd" }: any) => (
   <View style={[styles.iconCircle, { backgroundColor: bg, width: size, height: size, borderRadius: size / 1, alignSelf: 'center' }]}>
@@ -83,9 +111,10 @@ const RegisterScreen = ({ navigation }: any) => (
       <CustomInput placeholder="Nombre" />
       <CustomInput placeholder="Apellido" />
       <CustomInput placeholder="Correo electrónico" />
-      <CustomInput placeholder="Contraseña" secureTextEntry icon={<Lock size={20} color="#999" />} />
-      <CustomInput placeholder="Repetir contraseña" secureTextEntry icon={<Lock size={20} color="#999" />} />
-
+      {/* <CustomInput placeholder="Contraseña" secureTextEntry icon={<Lock size={20} color="#999" />} />
+      <CustomInput placeholder="Repetir contraseña" secureTextEntry icon={<Lock size={20} color="#999" />} /> */}
+      <CustomInput placeholder="Contraseña" secureTextEntry />
+      <CustomInput placeholder="Repetir contraseña" secureTextEntry />
       <TouchableOpacity style={styles.checkboxContainer}>
         <View style={styles.checkbox} />
         <Text style={styles.checkboxText}>Acepto términos y condiciones</Text>
@@ -121,8 +150,8 @@ const LoginScreen = ({ navigation }: any) => (
     <IconCircle icon={<ArrowRight size={50} color="#fff" />} size={80} />
     <View style={styles.contentCenter}>
       <CustomInput placeholder="Correo electrónico" />
-      <CustomInput placeholder="Contraseña" secureTextEntry icon={<Lock size={20} color="#999" />} />
-      
+      {/* <CustomInput placeholder="Contraseña" secureTextEntry icon={<Lock size={20} color="#999" />} /> */}
+      <CustomInput placeholder="Contraseña" secureTextEntry />
       <TouchableOpacity onPress={() => navigation.navigate('Recover')}>
         <Text style={styles.linkText}>¿Olvidé mi contraseña?</Text>
       </TouchableOpacity>
@@ -147,30 +176,64 @@ const RecoverScreen = ({ navigation }: any) => (
 );
 
 // 6. Activar BA Protege (Configuración de permisos)
-const ActivateScreen = ({ navigation }: any) => (
-  <View style={styles.container}>
-    <Header />
-    <ScreenTitle text="Activa BA Protege +" />
-    <IconCircle icon={<ShieldCheck size={50} color="#fff" />} size={80} />
-    <ScrollView contentContainerStyle={styles.content}>
-      <Text style={styles.description}>Configuración de Permisos{'\n'}Para que la solución funcione correctamente, necesitamos algunos permisos.</Text>
-      <View style={styles.infoCard}>
-        <View style={styles.infoRow}><Text style={styles.infoTitle}>Paso 1: Administrar</Text><CheckCircle2 color="#00B4D8" size={20} /></View>
-        <Text style={styles.infoText}>Permisos activados correctamente</Text>
-      </View>
-      <View style={styles.infoCard}>
-        <View style={styles.infoRow}><Text style={styles.infoTitle}>Paso 2: Conexión VPN</Text><CheckCircle2 color="#00B4D8" size={20} /></View>
-        <Text style={styles.infoText}>La conexión VPN nos permite proteger la navegación y acceder a los sitios bloqueados...</Text>
-      </View>
-      <View style={[styles.infoCard, { borderColor: '#00B4D8' }]}>
-        <View style={styles.infoRow}><Text style={[styles.infoTitle, { color: '#0077B6' }]}>Activar conexión VPN</Text><View style={styles.vpnSwitch} /></View>
-        <Text style={styles.infoText}>Luego podrás activar y desactivar la VPN.</Text>
-      </View>
+const ActivateScreen = ({ navigation }: any) => {
+  // Estado para el switch de la VPN
+  const [isVpnEnabled, setIsVpnEnabled] = useState(false);
 
-      <PrimaryButton title="Continuar" onPress={() => navigation.navigate('UsageMode')} />
-    </ScrollView>
-  </View>
-);
+  return (
+    <View style={styles.container}>
+      <Header />
+      <ScreenTitle text="Activá BA Protege" />
+      <ScrollView contentContainerStyle={styles.content}>
+        <IconCircle icon={<ShieldCheck size={40} color="#fff" />} size={80} />
+        <Text style={styles.description}>
+          Configuración de Permisos{'\n'}
+          Para que la solución funcione correctamente, necesitamos algunos permisos.
+        </Text>
+
+        <View style={styles.infoCard}>
+          <View style={styles.infoRow}>
+            <Text style={styles.infoTitle}>Paso 1: Administrar</Text>
+            <CheckCircle2 color="#00B4D8" size={20} />
+          </View>
+          <Text style={styles.infoText}>Permisos activados correctamente</Text>
+        </View>
+
+        <View style={styles.infoCard}>
+          <View style={styles.infoRow}>
+            <Text style={styles.infoTitle}>Paso 2: Conexión VPN</Text>
+            <CheckCircle2 color="#00B4D8" size={20} />
+          </View>
+          <Text style={styles.infoText}>
+            La conexión VPN nos permite proteger la navegación y acceder a los sitios bloqueados...
+          </Text>
+        </View>
+
+        {/* TARJETA CON EL SWITCH */}
+        <View style={[styles.infoCard, { borderColor: '#00B4D8', borderWidth: 1.5 }]}>
+          <View style={styles.infoRow}>
+            <Text style={[styles.infoTitle, { color: '#0077B6' }]}>Activar conexión VPN</Text>
+            
+            {/* ACÁ VA EL SWITCH NATIVO */}
+            <Switch
+              trackColor={{ false: "#767577", true: "#00B4D8" }}
+              thumbColor={isVpnEnabled ? "#fff" : "#f4f3f4"}
+              ios_backgroundColor="#3e3e3e"
+              onValueChange={() => setIsVpnEnabled(!isVpnEnabled)}
+              value={isVpnEnabled}
+            />
+          </View>
+          <Text style={styles.infoText}>Luego podrás activar y desactivar la VPN.</Text>
+        </View>
+
+        <PrimaryButton 
+          title="Continuar" 
+          onPress={() => navigation.navigate('UsageMode')} 
+        />
+      </ScrollView>
+    </View>
+  );
+};
 
 // 7. Modo de uso
 const UsageModeScreen = ({ navigation }: any) => (
@@ -267,14 +330,14 @@ const ConfigProtectionScreen = ({ navigation }: any) => (
     <View style={styles.contentCenter}>
       <Text style={styles.description}>Elegí qué querés bloquear en este dispositivo.</Text>
       <View style={styles.checkRow}>
-        <View style={[styles.checkBoxActive, { backgroundColor: '#00B4D8', borderRadius: 10, padding: 10, marginRight: 15 }]}><Shield size={25} color="#fff" /></View>
+        <View style={[styles.checkBoxActive]}><Shield size={25} color="#fff" /></View>
         <View>
           <Text style={styles.checkTitle}>Sitios de Apuestas</Text>
           <Text style={styles.checkDesc}>Bloqueo de sitios, juegos y apps de apuestas.</Text>
         </View>
       </View>
       <View style={styles.checkRow}>
-        <View style={[styles.checkBoxInactive, { backgroundColor: '#E0F7FA', borderRadius: 10, padding: 10, marginRight: 15 }]}><Shield size={25} color="#00B4D8" /></View>
+        <View style={[styles.checkBoxInactive]}><Shield size={25} color="#00B4D8" /></View>
         <View>
           <Text style={styles.checkTitle}>Sitios de información (Opcional)</Text>
         </View>
@@ -479,5 +542,7 @@ const styles = StyleSheet.create({
   menuCard: { width: '100%', backgroundColor: '#8CB4E3', flexDirection: 'row', padding: 15, borderRadius: 10, marginBottom: 10, alignItems: 'center' },
   menuText: { flex: 1, color: '#fff', fontWeight: 'bold', marginLeft: 15 },
   warningCard: { width: '100%', flexDirection: 'row', backgroundColor: '#F5F5F5', padding: 15, borderRadius: 10, borderWidth: 1, borderColor: '#E0E0E0', alignItems: 'center', marginBottom: 20 },
-  screenTitle: {fontSize: 30, fontWeight: 'bold', color: '#333', textAlign: 'center', marginTop: 30,}, // <-- Ajustá este valor si querés más o menos espacio desde el Header azulmarginBottom: 20,paddingHorizontal: 20,},
+  screenTitle: { fontSize: 30, fontWeight: 'bold', color: '#333', textAlign: 'center', marginTop: 30,},
+  checkBoxActive: { backgroundColor: '#00B4D8', borderRadius: 10, padding: 10, marginRight: 15,},
+  checkBoxInactive: { backgroundColor: '#E0F7FA', borderRadius: 10, padding: 10, marginRight: 15,},
 });
